@@ -25,7 +25,9 @@ public class Course {
             generator = "student_sequence"
     )
     private Long course_id;
+    @Column(unique = true)
+    private String course_shortForm;
+    @Column(unique = true)
     private String course_name;
-
     private String course_description;
 }
