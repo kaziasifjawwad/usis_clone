@@ -12,6 +12,14 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Data
 @Entity
+@Table(
+        name="tbl_faculty",
+        uniqueConstraints = @UniqueConstraint(
+                name = "faculty_email_unique",
+                columnNames = "faculty_email"
+        )
+)
+
 public class Faculty {
 
     @Id
@@ -24,8 +32,12 @@ public class Faculty {
             strategy = GenerationType.SEQUENCE,
             generator = "faculty_sequence"
     )
-    private String faculty_id;
+
+    private Long faculty_id;
     private String faculty_name;
+
+    @Column(name = "faculty_email",
+            nullable = false)
     private String faculty_email;
     private String faculty_mobileNumber;
 }

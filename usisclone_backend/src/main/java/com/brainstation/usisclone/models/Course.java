@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Data
 @Builder
 
-@Entity(name="tbl_course")
+@Entity
 public class Course {
     @Id
     @SequenceGenerator(
@@ -24,8 +24,8 @@ public class Course {
             strategy = GenerationType.SEQUENCE,
             generator = "student_sequence"
     )
-    private String course_id;
-    private String Course_name;
+    private Long course_id;
+    private String course_name;
 
     private String course_description;
 }
