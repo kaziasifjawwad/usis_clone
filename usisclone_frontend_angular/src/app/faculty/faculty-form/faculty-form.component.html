@@ -1,0 +1,14 @@
+<div class="container rounded bg-white mt-5 mb-5">
+        <div class="col-md-5 border-right">
+                <form [formGroup]="facultyInformationForm" (ngSubmit) = "submitInformationOfFaculty()" class="p-3 py-5">
+                    <div class="row mt-3">
+                        <div class="col-md-12"><label class="labels">Name</label><input type="text" class="form-control" placeholder="Your Name" value=""></div>
+                        <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control" placeholder="Your email" value=""></div>
+                        <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" class="form-control" placeholder="Your mobile number" value=""></div>
+                    </div>
+                    <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Save Profile</button></div>
+                </form>
+        </div>
+  </div>
+
+  
