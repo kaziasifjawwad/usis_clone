@@ -1,45 +1,43 @@
 package com.brainstation.usisclone.controller;
-
-import com.brainstation.usisclone.models.Course;
+import com.brainstation.usisclone.models.Faculty;
 import com.brainstation.usisclone.payload.ApiResponse;
-import com.brainstation.usisclone.services.CourseService;
+import com.brainstation.usisclone.services.FacultyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.NoSuchElementException;
-import org.springframework.dao.DataIntegrityViolationException;
 
 @RestController
-@RequestMapping(path = "api/course")
-public class CourseController {
+@RequestMapping(path = "api/faculty")
+public class FacultyController {
+
     @Autowired
-    private CourseService courseService;
-
-
+    private FacultyService facultyService;
 
     @GetMapping
-    public ResponseEntity<?> getAllCourse(){
-        return new ResponseEntity<>(courseService.getAllCourse(), HttpStatus.OK);
+    public ResponseEntity<?> getAllFaculty(){
+        return new ResponseEntity<>(facultyService.getAllFaculties(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getCourseById(@PathVariable Long id){
+    public ResponseEntity<?> getFacultyById(@PathVariable Long id){
         try{
-            return new ResponseEntity<>(courseService.findCourseById(id),HttpStatus.OK);
+            return new ResponseEntity<>(facultyService.findFacultyById(id),HttpStatus.OK);
         }catch (NoSuchElementException exception){
             return new ResponseEntity<>(
-                    new ApiResponse("No course found with this ID"),
+                    new ApiResponse("No faculty found with this ID"),
                     HttpStatus.BAD_REQUEST
             );
         }
     }
 
     @PostMapping
-    public ResponseEntity<?> postCourse(@RequestBody Course course){
+    public ResponseEntity<?> postFaculty(@RequestBody Faculty faculty){
         try{
             return new ResponseEntity<>(
-                    courseService.addCourse(course),
+                    facultyService.addFaculty(faculty),
                     HttpStatus.OK
             );
         }catch (DataIntegrityViolationException exception){
@@ -51,22 +49,22 @@ public class CourseController {
     }
 
     @PutMapping
-    public ResponseEntity<?> updateCourse(@RequestBody Course course){
+    public ResponseEntity<?> updateFaculty(@RequestBody Faculty faculty){
         try{
             return new ResponseEntity<>(new ApiResponse("The information has been updated successfully",
-                    courseService.updateCourse(course)),HttpStatus.OK);
+                    facultyService.updateFaculty(faculty)),HttpStatus.OK);
         }catch (NoSuchElementException exception){
-            return new ResponseEntity<>(new ApiResponse("No course found with the given ID"),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ApiResponse("No faculty found with the given ID"),HttpStatus.BAD_REQUEST);
         }catch (DataIntegrityViolationException dataIntegrityViolationException){
             return new ResponseEntity<>(new ApiResponse("Some of the updated data already exists."),HttpStatus.BAD_REQUEST);
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteCourseById(@PathVariable Long id){
+    public ResponseEntity<?> deleteFacultyById(@PathVariable Long id){
         try{
             return new ResponseEntity<>( new ApiResponse("The information has been deleted successfully",
-                    courseService.deleteCourseById(id)),HttpStatus.OK);
+                    facultyService.deleteFacultyById(id)),HttpStatus.OK);
         }catch (NoSuchElementException e){
             ApiResponse apiResponse = new ApiResponse("Something went wrong");
             return new ResponseEntity<>( apiResponse ,HttpStatus.BAD_REQUEST);

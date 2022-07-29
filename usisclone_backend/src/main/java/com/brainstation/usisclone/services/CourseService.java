@@ -6,6 +6,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class CourseService {
@@ -21,19 +22,23 @@ public class CourseService {
     }
 
     public Course deleteCourseById(Long id) throws NoSuchElementException {
-        Course course = courseRepository.findById(id).get();
-        courseRepository.delete(course);
-        return course;
+        Optional<Course> optionalCourse = courseRepository.findById(id);
+        if(optionalCourse.isPresent()){
+            Course course = optionalCourse.get();
+            courseRepository.delete(course);
+            return course;
+        }else throw new NoSuchElementException();
     }
 
-    public Course updateCourse(Course course){
-        if (courseRepository.findById(course.getCourse_id()).get()==null) throw new NoSuchElementException();
+    public Course updateCourse(Course course) throws DataIntegrityViolationException,NoSuchElementException{
+        if (courseRepository.findById(course.getCourse_id()).isEmpty()) throw new NoSuchElementException();
         return courseRepository.save(course);
     }
 
     public Course findCourseById(Long id) throws  NoSuchElementException{
-        Course course = courseRepository.findById(id).get();
-        if (course==null) throw new NoSuchElementException();
-        return course;
+        Optional<Course> optionalCourse = courseRepository.findById(id);
+        if(optionalCourse.isPresent()){
+            return optionalCourse.get();
+        }else throw new NoSuchElementException();
     }
 }
