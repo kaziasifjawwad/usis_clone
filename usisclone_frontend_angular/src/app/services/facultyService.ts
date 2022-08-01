@@ -12,7 +12,8 @@ import { config } from "../config";
 export class FacultyService{
     constructor(private http: HttpClient){}
 
-    readResult():Observable<Faculty[]>{
+    readAllFaculties():Observable<Faculty[]>{
+        console.log("***")
         console.log(`${config.apiUrl}/api/faculty`);
         return this.http.get<Faculty[]>(
             `${config.apiUrl}/api/faculty`
