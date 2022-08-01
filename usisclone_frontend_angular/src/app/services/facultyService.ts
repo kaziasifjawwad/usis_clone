@@ -19,6 +19,14 @@ export class FacultyService{
         )
     }
 
+    saveFacultyProfile(faculty:Faculty){
+        console.log(faculty);
+        return this.http.post<Faculty>("http://localhost:8080/api/faculty", 
+        faculty   
+          );
+    }
+
+
     // requestResult(metaData:{endpoint:string,userfile:FormData}):Observable<any[]>{
     //     const anyRequest =  this.http.post<any[]>(`${config.apiUrl}/userfiles/upload/${metaData.endpoint}` , metaData.userfile);
     //     return anyRequest;
@@ -39,6 +47,7 @@ export class FacultyService{
     // requestResultForcImageNormal(data :{file:File, mail: string},apiEndPoint:string){
     //     return this.http.post<{message:string,itemsRemaining:number,status:number}>(`${config.apiUrl}/userfiles/${apiEndPoint}/` ,data);
     // }
+
 
 
 }

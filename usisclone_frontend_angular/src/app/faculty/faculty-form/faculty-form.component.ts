@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FacultyService } from 'src/app/services/facultyService';
 import { ToastrService } from 'ngx-toastr';
 import { Faculty } from 'src/app/models/models';
+import { HttpEvent } from '@angular/common/http';
 
 
 @Component({
@@ -14,6 +15,9 @@ import { Faculty } from 'src/app/models/models';
 export class FacultyFormComponent implements OnInit {
 
   facultyInformationForm! : FormGroup;
+  imageFile!:File;
+  imageInputField!:Event|null;
+
 
   constructor(
     private fb: FormBuilder,
@@ -30,14 +34,38 @@ export class FacultyFormComponent implements OnInit {
     })
   }
 
+  uploadFile(event:Event){
+     this.imageFile = <File>(event.target as HTMLInputElement).files![0] ;
+   
+  }
+
   submitInformationOfFaculty():void{
-    console.log(this.facultyInformationForm);
     const formData:any = new FormData();
-    Object.keys(this.facultyInformationForm.controls).forEach(key => {
-      console.log(this.facultyInformationForm.get(key)?.value);
-      formData.append(
-        key, this.facultyInformationForm.get(key)?.value
-      );
+
+    for(const key of Object.keys(this.facultyInformationForm.controls)){
+      // console.log(this.facultyInformationForm.controls[key].value);
+      this.facultyInformationForm.controls[key].markAsDirty();
+      this.facultyInformationForm.controls[key].updateValueAndValidity();
+    }
+
+    formData.append('facultyInformation',JSON.stringify(this.facultyInformationForm.value));
+    formData.append('image',this.imageFile);
+
+    console.log(formData.get('image'));
+    console.log(formData.get('facultyInformation'));
+    this.facultyService.saveFacultyProfile(formData)
+    .subscribe(
+      {
+      next:(res)=>{
+        console.log(res);
+        // this.toastr.success('Account created');
+        // this.router.navigate(['/login'])
+      },
+      error:(error)=>{
+        this.facultyInformationForm.reset();
+        // (this.imageInputField.target as HTMLInputElement).files[0] = null;
+      }
+      
     });
   }
 
