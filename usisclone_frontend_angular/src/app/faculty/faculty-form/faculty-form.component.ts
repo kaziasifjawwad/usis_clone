@@ -58,11 +58,12 @@ export class FacultyFormComponent implements OnInit {
       {
       next:(res)=>{
         console.log(res);
-        // this.toastr.success('Account created');
+        this.toaster.success('Profile created');
         // this.router.navigate(['/login'])
       },
       error:(error)=>{
         this.facultyInformationForm.reset();
+        this.toaster.error('Please give valid information');
         // (this.imageInputField.target as HTMLInputElement).files[0] = null;
       }
       

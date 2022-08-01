@@ -7,9 +7,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CourseModule } from './course/course.module';
 import { FacultyModule } from './faculty/faculty.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
+
+import { CommonModule } from '@angular/common';
+// import { UsersModule } from './users/users.module';
+// import { NgxSpinnerModule } from 'ngx-spinner';
+// import { SpinnerComponent } from './spinner/spinner.component';
+// import { NgHttpLoaderModule } from 'ng-http-loader';
 
 @NgModule({
   declarations: [
@@ -25,6 +32,7 @@ import { FacultyModule } from './faculty/faculty.module';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
     ToastrModule.forRoot(
       {
         timeOut : 5000,

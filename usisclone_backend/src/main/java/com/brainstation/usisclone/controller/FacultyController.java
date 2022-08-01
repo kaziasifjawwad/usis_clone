@@ -2,12 +2,18 @@ package com.brainstation.usisclone.controller;
 import com.brainstation.usisclone.models.Faculty;
 import com.brainstation.usisclone.payload.ApiResponse;
 import com.brainstation.usisclone.services.FacultyService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/faculty")
@@ -34,13 +40,21 @@ public class FacultyController {
     }
 
     @PostMapping
-    public ResponseEntity<?> postFaculty(@RequestBody Faculty faculty){
+    public ResponseEntity<?> postFaculty(@RequestParam("facultyInformation") String model, @RequestParam("image") Optional<MultipartFile> image){
         try{
+        ObjectMapper mapper = new ObjectMapper();
+        Faculty faculty = mapper.readValue(model, Faculty.class);
+        System.out.println(faculty);
+
             return new ResponseEntity<>(
                     facultyService.addFaculty(faculty),
                     HttpStatus.OK
             );
         }catch (DataIntegrityViolationException exception){
+            return new ResponseEntity<>(
+                    new ApiResponse("Some of your data is duplicate"),HttpStatus.BAD_REQUEST
+            );
+        }catch (JsonProcessingException jsonProcessingException){
             return new ResponseEntity<>(
                     new ApiResponse("Some of your data is duplicate"),HttpStatus.BAD_REQUEST
             );
