@@ -1,4 +1,4 @@
-package com.brainstation.usisclone.security.jwtTokenImplementation.springSecurityConfiguration;
+package com.brainstation.usisclone.security.springSecurityConfiguration;
 import com.brainstation.usisclone.security.jwtTokenImplementation.jwtConfiguration.JwtAuthenticationEntryPoint;
 import com.brainstation.usisclone.security.jwtTokenImplementation.jwtConfiguration.JwtRequestFilter;
 import com.brainstation.usisclone.services.CustomUserDetailsService;
@@ -120,9 +120,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-//                .antMatchers("/api/faculty").hasRole("ADMIN")
-//                .antMatchers("/api/users/**").permitAll().anyRequest().authenticated()
-                .antMatchers("/**").permitAll().anyRequest().authenticated()
+                .antMatchers("/api/faculty").hasAnyAuthority("ADMIN")
+                .antMatchers("/api/users/**").permitAll().anyRequest().authenticated()
+//                .antMatchers("/**").permitAll().anyRequest().authenticated()
                 .and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

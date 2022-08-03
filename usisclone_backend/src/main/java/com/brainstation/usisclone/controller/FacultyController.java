@@ -1,9 +1,9 @@
 package com.brainstation.usisclone.controller;
 import com.brainstation.usisclone.models.Faculty;
 import com.brainstation.usisclone.payload.ApiResponse;
+import com.brainstation.usisclone.security.jwtConfiguration.jwtTokenImplementation.jwtInformation.JwtTokenInformationDecryptor;
 import com.brainstation.usisclone.services.FacultyService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -24,6 +24,8 @@ public class FacultyController {
 
     @GetMapping
     public ResponseEntity<?> getAllFaculty(){
+//        String token = new JwtTokenInformationDecryptor().getUserName();
+//        System.out.println("*********************\n"+token);
         return new ResponseEntity<>(facultyService.getAllFaculties(), HttpStatus.OK);
     }
 

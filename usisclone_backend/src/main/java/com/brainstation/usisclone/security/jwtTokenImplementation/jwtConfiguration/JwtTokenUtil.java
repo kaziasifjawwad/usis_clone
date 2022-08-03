@@ -1,12 +1,12 @@
 package com.brainstation.usisclone.security.jwtTokenImplementation.jwtConfiguration;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +18,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class JwtTokenUtil implements Serializable {
 
     private static final long serialVersionUID = -2550185165626007488L;
-
+    private int refreshExpirationDateInMs;
     public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
     @Value("${jwt.secret}")
@@ -52,6 +52,20 @@ public class JwtTokenUtil implements Serializable {
     //generate token for user
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
+
+        Collection<? extends GrantedAuthority> roles = userDetails.getAuthorities();
+        System.out.println(roles+"/*/*/*/*/*/*");
+        Iterator<? extends GrantedAuthority> iterator = roles.iterator();
+        while(iterator.hasNext()){
+            claims.put(iterator.next().toString(),true);
+        }
+//        if (roles.contains(new SimpleGrantedAuthority("ADMIN"))) {
+//            claims.put("isAdmin", true);
+//        }
+//        if (roles.contains(new SimpleGrantedAuthority("ROLE_USER"))) {
+//            claims.put("isUser", true);
+//        }
+
         return doGenerateToken(claims, userDetails.getUsername());
     }
 
@@ -72,4 +86,19 @@ public class JwtTokenUtil implements Serializable {
         final String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
+
+    @Value("${jwt.refreshExpirationDateInMs}")
+    public void setRefreshExpirationDateInMs(int refreshExpirationDateInMs) {
+        this.refreshExpirationDateInMs = refreshExpirationDateInMs;
+    }
+
+    public String doGenerateRefreshToken(Map<String, Object> claims, String subject) {
+
+        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + refreshExpirationDateInMs))
+                .signWith(SignatureAlgorithm.HS512, secret).compact();
+
+    }
+
+
 }
