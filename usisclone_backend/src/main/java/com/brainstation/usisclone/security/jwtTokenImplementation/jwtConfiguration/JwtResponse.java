@@ -1,4 +1,4 @@
-package com.brainstation.usisclone.security.jwtTokenImplementation;
+package com.brainstation.usisclone.security.jwtTokenImplementation.jwtConfiguration;
 
 import java.io.Serializable;
 

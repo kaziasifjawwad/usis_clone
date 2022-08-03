@@ -3,7 +3,7 @@ package com.brainstation.usisclone.controller;
 import com.brainstation.usisclone.models.user.DAOUser;
 import com.brainstation.usisclone.payload.AuthenticateRequest;
 import com.brainstation.usisclone.payload.AuthenticationResponse;
-import com.brainstation.usisclone.security.jwtTokenImplementation.JwtTokenUtil;
+import com.brainstation.usisclone.security.jwtTokenImplementation.jwtConfiguration.JwtTokenUtil;
 import com.brainstation.usisclone.services.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

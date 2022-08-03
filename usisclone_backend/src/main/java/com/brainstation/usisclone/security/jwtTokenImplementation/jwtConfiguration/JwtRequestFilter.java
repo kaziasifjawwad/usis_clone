@@ -1,4 +1,4 @@
-package com.brainstation.usisclone.security.jwtTokenImplementation;
+package com.brainstation.usisclone.security.jwtTokenImplementation.jwtConfiguration;
 
 import java.io.IOException;
 
@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.brainstation.usisclone.services.CustomUserDetailsService;
-import com.brainstation.usisclone.services.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
