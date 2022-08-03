@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 
+//FIXME
+//this class should be deleted
 
-@RestController
-@CrossOrigin
+//@RestController
+//@CrossOrigin
 public class JwtAuthenticationController {
 
 
@@ -31,7 +33,7 @@ public class JwtAuthenticationController {
     @Autowired
     private JwtUserDetailsService userDetailsService;
 
-    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+    @RequestMapping(value = "/authenticateeeee", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
@@ -55,3 +57,4 @@ public class JwtAuthenticationController {
         }
     }
 }
+
